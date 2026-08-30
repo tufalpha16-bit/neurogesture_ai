@@ -1,0 +1,13 @@
+{
+    "classes": [
+        "next_slide",
+        "next_track",
+        "no_gesture",
+        "pause",
+        "previous_slide",
+        "previous_track",
+        "screenshot",
+        "volume_down",
+        "volume_up"
+    ]
+}

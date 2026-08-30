@@ -1,0 +1,18 @@
+{
+    "classes": [
+        "next_slide",
+        "next_track",
+        "no_gesture",
+        "pause",
+        "previous_slide",
+        "previous_track",
+        "screenshot",
+        "volume_down",
+        "volume_up"
+    ],
+    "num_classes": 9,
+    "num_samples": 422,
+    "sequence_length": 30,
+    "features_per_frame": 126,
+    "dtype": "float32"
+}

@@ -1,0 +1,53 @@
+# ==============================================================================
+# NeuroGesture AI - Application Configuration
+# Edit this file to change behavior without touching source code.
+# ==============================================================================
+
+camera:
+  device_index: 0          # 0 = default built-in laptop webcam
+  frame_width: 1280
+  frame_height: 720
+  target_fps: 30
+  flip_horizontal: true    # mirror view, more natural for users facing the camera
+
+mediapipe:
+  max_num_hands: 2
+  min_detection_confidence: 0.6
+  min_tracking_confidence: 0.6
+  model_complexity: 1       # kept for reference; not used by the Tasks API, see model_path
+  model_path: "models/hand_landmarker.task"   # REQUIRED — see README.md "Model Setup"
+
+dataset:
+  sequence_length: 30       # number of frames captured per gesture sample
+  samples_per_gesture: 40   # default number of recordings per new gesture
+  storage_path: "data/gestures"
+
+model:
+  storage_path: "data/models"
+  active_model: "default_model.h5"
+  input_landmarks: 21       # MediaPipe hand landmarks per hand
+  coordinates_per_landmark: 3   # x, y, z
+
+  # Placeholder for Phase 3 (LSTM/GRU architecture) - documented, not yet active
+  architecture: "LSTM"
+  hidden_units: 64
+  dropout: 0.3
+  epochs: 100
+  batch_size: 16
+  learning_rate: 0.001
+
+prediction:
+  confidence_threshold: 0.80   # Phase 4
+  smoothing_window: 5           # Phase 4
+  cooldown_seconds: 1.0         # prevents accidental repeated triggers, Phase 4
+
+logging:
+  log_dir: "logs"
+  log_level: "INFO"          # DEBUG, INFO, WARNING, ERROR
+  max_log_files: 10
+
+ui:
+  theme: "dark"
+  window_title: "NeuroGesture AI"
+  window_width: 1400
+  window_height: 850

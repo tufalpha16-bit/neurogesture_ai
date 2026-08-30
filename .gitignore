@@ -1,0 +1,55 @@
+venv/
+__pycache__/
+*.pyc
+logs/*.log
+data/gestures/*
+data/models/*
+!data/gestures/.gitkeep
+!data/models/.gitkeep
+.vscode/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environments
+.venv/
+venv/
+venv312/
+
+# Logs
+logs/
+*.log
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Python tooling
+.pytest_cache/
+.mypy_cache/
+
+# Temporary files
+*.tmp
+*.temp
+
+# Backups
+src_final_backup/
+models_final_backup/
+config_final_backup/
+
+# Generated screenshots
+screenshots/
+
+# Large archive
+*.zip
+
+# Large ML/data artifacts
+data/prepared/*.npy
+models/*.task
+models/trained/*.keras
