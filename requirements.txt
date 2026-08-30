@@ -1,4 +1,4 @@
-streamlit
+﻿streamlit
 streamlit-webrtc
 opencv-contrib-python-headless
 mediapipe
