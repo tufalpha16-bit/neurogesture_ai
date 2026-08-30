@@ -7,16 +7,10 @@ st.set_page_config(
 )
 
 st.title("🖐️ NeuroGesture AI")
-
-st.write(
-    "AI-powered hand gesture recognition system."
-)
+st.write("AI-powered hand gesture recognition system.")
 
 st.success("NeuroGesture AI web application is running!")
 
-st.markdown("""
-### About
+st.header("Gesture Recognition")
 
-NeuroGesture AI uses computer vision and machine learning
-to recognize hand gestures and convert them into actions.
-""")
+st.info("Web gesture recognition will be connected here.")
