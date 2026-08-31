@@ -1,8 +1,7 @@
 """
 gesture_predictor.py
 
-Loads the trained NeuroGesture LSTM model and predicts gestures from
-a rolling sequence of 30 hand-landmark frames.
+Fast and stable gesture prediction for NeuroGesture AI.
 """
 
 from __future__ import annotations
@@ -21,18 +20,17 @@ logger = get_logger(__name__)
 SEQUENCE_LENGTH = 30
 FEATURE_SIZE = 126
 
-# Keep video smooth by predicting every 10 frames.
-PREDICTION_INTERVAL = 10
+# Predict more frequently for a responsive dashboard.
+PREDICTION_INTERVAL = 3
 
-# Minimum confidence required.
-CONFIDENCE_THRESHOLD = 0.60
+# Lower than before so gestures appear sooner.
+CONFIDENCE_THRESHOLD = 0.55
 
-# Same prediction required this many times.
-STABILITY_REQUIRED = 3
+# Require fewer repeated predictions.
+STABILITY_REQUIRED = 2
 
 
 class GesturePredictor:
-    """Predict gestures from a rolling 30-frame landmark sequence."""
 
     def __init__(
         self,
@@ -64,7 +62,6 @@ class GesturePredictor:
         self._load_labels()
 
     def _load_model(self) -> None:
-        """Load the trained TensorFlow model."""
 
         if not self._model_path.exists():
             raise FileNotFoundError(
@@ -81,7 +78,6 @@ class GesturePredictor:
         )
 
     def _load_labels(self) -> None:
-        """Load gesture labels."""
 
         if not self._labels_path.exists():
             raise FileNotFoundError(
@@ -103,7 +99,6 @@ class GesturePredictor:
         )
 
     def reset(self) -> None:
-        """Reset everything when no hand is detected."""
 
         self._buffer.clear()
         self._frames_since_prediction = 0
@@ -118,7 +113,6 @@ class GesturePredictor:
         self,
         vector: np.ndarray,
     ) -> tuple[str, float] | None:
-        """Add one landmark vector and return a stable gesture when ready."""
 
         vector = np.asarray(
             vector,
@@ -127,19 +121,18 @@ class GesturePredictor:
 
         if vector.shape != (FEATURE_SIZE,):
             raise ValueError(
-                f"Expected landmark vector shape "
+                f"Expected vector shape "
                 f"({FEATURE_SIZE},), got {vector.shape}"
             )
 
         self._buffer.append(vector)
 
-        # Need 30 frames.
+        # Wait until we have a complete sequence.
         if len(self._buffer) < SEQUENCE_LENGTH:
             return None
 
         self._frames_since_prediction += 1
 
-        # Predict every 10 frames.
         if self._frames_since_prediction < PREDICTION_INTERVAL:
             return None
 
@@ -178,18 +171,17 @@ class GesturePredictor:
 
         gesture = self._labels[class_index]
 
-        # Print useful prediction information.
         logger.info(
             "RAW GESTURE: %s (%.1f%%)",
             gesture,
             confidence * 100,
         )
 
-        # Ignore weak predictions.
+        # Weak prediction.
         if confidence < self._confidence_threshold:
             return None
 
-        # Same gesture again.
+        # Same prediction as previous.
         if gesture == self._candidate_gesture:
             self._candidate_count += 1
         else:
@@ -203,11 +195,9 @@ class GesturePredictor:
             STABILITY_REQUIRED,
         )
 
-        # Not stable yet.
         if self._candidate_count < STABILITY_REQUIRED:
             return None
 
-        # Stable gesture.
         self._stable_gesture = gesture
         self._stable_confidence = confidence
 
