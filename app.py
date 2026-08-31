@@ -232,27 +232,20 @@ st.write(
 
 ctx = webrtc_streamer(
     key="neurogesture-camera",
-
     video_processor_factory=GestureVideoProcessor,
 
     rtc_configuration={
-    "iceServers": [
-        {"urls": ["stun:stun.l.google.com:19302"]}
-    ]
-},
+        "iceServers": [
+            {
+                "urls": [
+                    "stun:stun.l.google.com:19302"
+                ]
+            }
+        ]
+    },
 
     media_stream_constraints={
-        "video": {
-            "width": {
-                "ideal": 640
-            },
-            "height": {
-                "ideal": 480
-            },
-            "frameRate": {
-                "ideal": 20
-            },
-        },
+        "video": True,
         "audio": False,
     },
 
